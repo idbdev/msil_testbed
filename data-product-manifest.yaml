@@ -75,15 +75,16 @@ productState:
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
-  tableName: msil_testbed.sales_invoice
-  warehousePath: s3://dataverse
-  catalogName: glue
+  tableName: iceberg_meta.sales_invoice
+  warehousePath: s3a://byteverseoutput-bucket/
+  catalogName: postgres_catalog
   optional:
     persistDataFrame: false
     enableDataReconciliation: false
     enforceSchema: false
     enforceSchemaMethod: Warning
-    catalogType: glue
+    catalogType: postgres
+    connection: S3 Connection
     loggingOptions:
       printSchema: true
       showData: true
@@ -107,6 +108,9 @@ transformation:
     query: Select * from region
     optional:
       persistDataFrame: false
+      loggingOptions:
+        printSchema: true
+        showData: true
     type: operationThroughSqlQuery
 controlPort:
   dataQualityRules: {}
