@@ -1,0 +1,112 @@
+jobId: "984"
+jobName: Sales Invoice
+jobType: Source Aligned Data Product
+developerId: 42825798-b98f-41c3-954a-c0722b747faf
+domain: sales
+alias: loading_data_to_iceberg
+discoveryPort:
+  name: Sales Invoice
+inputPorts:
+  - alias: Vendor_Master_1
+    isDynamic: true
+    path: s3a://dataverse/msil_testbed/vendor_master.csv
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        delimiter: ","
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: S3 Connection
+      dataSetUrn: urn:dv:dataset:d78a37a3-f063-48a3-96b3-36fb6c1771d2
+    type: inputDelimited
+  - alias: Region_1
+    isDynamic: true
+    path: s3a://dataverse/msil_testbed/region.csv
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        delimiter: ","
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: S3 Connection
+      dataSetUrn: urn:dv:dataset:ae207acd-5f6d-4252-9180-01bbee988237
+    type: inputDelimited
+  - alias: Invoice_1
+    isDynamic: true
+    path: s3a://dataverse/msil_testbed/Invoice.csv
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        delimiter: ","
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: S3 Connection
+      dataSetUrn: urn:dv:dataset:0d4d0617-60e7-49b9-aabb-a75f55699c19
+    type: inputDelimited
+  - alias: customer_master_1
+    isDynamic: true
+    path: s3://dataverse/msil_testbed/customer_master.csv
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        delimiter: ","
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: S3 Connection
+      dataSetUrn: urn:dv:dataset:fb5eac54-1bad-4f15-a5cc-1bde3a781349
+    type: inputDelimited
+  - alias: Order_Book_1
+    isDynamic: true
+    path: s3a://dataverse/msil_testbed/order_book.csv
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        delimiter: ","
+      enableDataReconciliation: false
+      enforceSchema: false
+      connection: S3 Connection
+      dataSetUrn: urn:dv:dataset:13f47c74-7b76-4026-b322-2af393c83756
+    type: inputDelimited
+productState:
+  isDynamic: true
+  alias: loading_data_to_iceberg
+  retentionVersions: ""
+  logicalSchema: ""
+  stateStoreType: loadDataIceberg
+  isProfilingEnabled: false
+  updateStrategy: Overwrite
+  tableName: msil_testbed.sales_invoice
+  warehousePath: s3://dataverse
+  catalogName: glue
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: false
+    enforceSchemaMethod: Warning
+    catalogType: glue
+    loggingOptions:
+      printSchema: true
+      showData: true
+  refreshInterval: 30 12 * * *
+transformation:
+  - isDynamic: true
+    alias: transforming_sales_invoice_data
+    description: Transforming sales invoice data
+    sequence: 6
+    inputDataFrameList:
+      - inputDataFrame: Vendor_Master_1
+        tempViewName: vendor
+      - inputDataFrame: Invoice_1
+        tempViewName: invoice
+      - inputDataFrame: Region_1
+        tempViewName: region
+      - inputDataFrame: Order_Book_1
+        tempViewName: order
+      - inputDataFrame: customer_master_1
+        tempViewName: customer
+    query: Select * from region
+    optional:
+      persistDataFrame: false
+    type: operationThroughSqlQuery
+controlPort:
+  dataQualityRules: {}
