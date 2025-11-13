@@ -45,7 +45,7 @@ inputPorts:
     type: inputDelimited
   - alias: customer_master_1
     isDynamic: true
-    path: s3://dataverse/msil_testbed/customer_master.csv
+    path: s3a://dataverse/msil_testbed/customer_master.csv
     optional:
       persistDataFrame: false
       advanceOptions:
@@ -76,7 +76,7 @@ productState:
   isProfilingEnabled: false
   updateStrategy: Overwrite
   tableName: iceberg_meta.sales_invoice
-  warehousePath: s3a://byteverseoutput-bucket/
+  warehousePath: s3a://dataverse/msil_testbed_load/
   catalogName: postgres_catalog
   optional:
     persistDataFrame: false
